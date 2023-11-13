@@ -137,6 +137,7 @@ namespace mySeed
                     }
                 }
                 if (txtBox != null) txtBox.BackColor = found ? SystemColors.Window : Color.Red;
+                if (this.Controls["textBox_Out" + (word + 1).ToString()] is TextBox resultBox) resultBox.BackColor = found ? SystemColors.Control : Color.Red;
             }
             byte[] bCode = new byte[w24 ? 33 : 17];
             code.CopyTo(bCode, 0);

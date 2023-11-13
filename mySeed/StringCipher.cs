@@ -8,7 +8,6 @@ namespace mySeed
 {
     public static class StringCipher
     {
-        //private static byte[] gIV = new byte[16];
 
         public static string EncryptString(string original, string password)
         {
@@ -24,7 +23,6 @@ namespace mySeed
         public static string DecryptString(string encrypted, string password) 
         {
             if (encrypted == "") return "";
-            //using Aes myAes = Aes.Create();
             byte[] bPassword = ASCIIEncoding.ASCII.GetBytes(password);
             byte[] hashPassword = MD5.HashData(bPassword);
             try
@@ -33,7 +31,7 @@ namespace mySeed
                     .Where(x => x % 2 == 0)
                     .Select(x => Convert.ToByte(encrypted.Substring(x, 2), 16))
                     .ToArray();
-                return DecryptStringFromBytes_Aes(encryptedByteArray, hashPassword);// myAes.IV);
+                return DecryptStringFromBytes_Aes(encryptedByteArray, hashPassword);
             }
             catch { }
             return "";
@@ -43,7 +41,6 @@ namespace mySeed
 
         private static byte[] EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
         {
-            // Check arguments.
             if (plainText == null || plainText.Length <= 0)
                 throw new ArgumentNullException(nameof(plainText));
             if (Key == null || Key.Length <= 0)
@@ -76,7 +73,6 @@ namespace mySeed
 
         static string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] Key)
         {
-            // Check arguments.
             if (cipherText == null || cipherText.Length <= 0)
                 throw new ArgumentNullException(nameof(cipherText));
             if (Key == null || Key.Length <= 0)
@@ -87,13 +83,8 @@ namespace mySeed
             byte[] encrypted = new byte[cipherText.Length - cipherText[0] - 1];
             Array.Copy(cipherText, 1 + cipherText[0], encrypted, 0, encrypted.Length);
 
-
-            // Declare the string used to hold
-            // the decrypted text.
             string? plaintext = null;
 
-            // Create an Aes object
-            // with the specified key and IV.
             using (Aes aesAlg = Aes.Create())
             {
                 aesAlg.Key = Key;
